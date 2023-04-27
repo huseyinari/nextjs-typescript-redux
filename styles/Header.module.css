@@ -1,0 +1,11 @@
+.headerText {
+    font-size: 40px;
+    font-weight: bolder;
+    text-decoration: none;
+    color: black;
+}
+.headerText:hover {
+    text-decoration: none;
+    color: black;
+    cursor: default;
+}
