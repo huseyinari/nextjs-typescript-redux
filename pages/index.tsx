@@ -1,12 +1,23 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { getPosts, getBestPost, getAboutPost } from '@/src/services/PostService';
-import Post from '@/src/models/Post'
+// components
 import Spinner from '@/src/components/forms/Spinner';
-import { getFirstPopularPost, getSecondPopularPost, reset as resetPost, selectFirstPopularPost, selectSecondPopularPost } from '@/src/redux/post-store';
+// models
+import Post from '@/src/models/Post';
+// services
+import { getBestPost, getAboutPost } from '@/src/services/PostService';
+// redux
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { 
+  getAllPosts,
+  getFirstPopularPost, 
+  getSecondPopularPost, 
+  reset as resetPost,
+  getPostState,
+} from '@/src/redux/post-store';
 import { store } from '@/src/redux/store';
+
 
 interface IHomePage {
   aboutPost: Post;
@@ -15,31 +26,30 @@ interface IHomePage {
 const HomePage: NextPage<IHomePage> = ({ aboutPost }) => {
 
   const dispatch = useAppDispatch();
-  const firstPopularPost = useAppSelector(selectFirstPopularPost); // store içerisinden state alma - useAppSelector() metodunu yazmasak store.getState().postReducer.firstPopularPost yazmalıydık;
-  const secondPopularPost = useAppSelector(selectSecondPopularPost);
+  // const firstPopularPost = useAppSelector(selectFirstPopularPost); // store içerisinden state alma - useAppSelector() metodunu yazmasak store.getState().postReducer.firstPopularPost yazmalıydık;
+  // const secondPopularPost = useAppSelector(selectSecondPopularPost);
+  const { allPosts, firstPopularPost, secondPopularPost } = useAppSelector(getPostState);
 
   const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState<Array<Post>>([]);
   const [bestPost, setBestPost] = useState<Post>();
 
   useEffect(() => {
     fetchPostData();
-
-    return () => {
-      dispatch(resetPost());  // action çağırma - useAppDispatch metodunu yazmasak store.dispatch() dememiz gerekirdi
-    }
   }, []);
 
-  useEffect(() => console.log(store.getState()))
+  useEffect(() => { 
+    console.log(store.getState()) // tüm reducer'ları görmek için
+  })
 
   const fetchPostData = async () => {
-    const posts = await getPosts(5);
     const bestPost = await getBestPost();
 
     dispatch(getFirstPopularPost());  // thunk action çağırma
     dispatch(getSecondPopularPost());
 
-    setPosts(posts);
+    if (allPosts.length === 0)
+      dispatch(getAllPosts(5))  // thunk action çağırma - argümanla birlikte
+
     setBestPost(bestPost);
     setLoading(false);
   }
@@ -108,7 +118,7 @@ const HomePage: NextPage<IHomePage> = ({ aboutPost }) => {
           </h3>
 
           {
-            posts.map((post: Post) => (
+            allPosts.map((post: Post) => (
               <article className="blog-post">
                 <h2 className="blog-post-title mb-1">{post.title}</h2>
                 <p className="blog-post-meta" style={{fontSize: 14, fontStyle: 'italics'}}>25 Nisan 2023, Hüseyin ARI</p>

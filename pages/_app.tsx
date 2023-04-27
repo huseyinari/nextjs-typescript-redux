@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app'
 import { useEffect } from 'react';
+// css
 import '@/styles/globals.css'
-
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
 // components
