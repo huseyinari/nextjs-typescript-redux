@@ -3,7 +3,7 @@ import postReducer from "./post-store";
 
 const myCustomSerializable = (val: any) => {
     // kontroller
-    return true;
+    return true;    // eğer false dönerse action'dan dönen object'i state'e atamıyoruz. addPost() action'ını kullanırken hata verdi bu middleware yokken.
 }
 const reducers = combineReducers({ postReducer })
 
