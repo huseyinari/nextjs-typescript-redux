@@ -14,6 +14,15 @@ export const getPosts = async (limit?: number): Promise<Array<Post>> => {
     return data.map((post: any) => Post.convertFromObject(post))
 }
 
+export const getPost = async (id: number): Promise<Post> => {
+    let url = `${apiUrl}/${id}`;
+
+    const resp = await fetch(url);
+    const data = await resp.json();
+
+    return Post.convertFromObject(data);
+}
+
 export const getBestPost = async (): Promise<Post> => {
     let url = `${apiUrl}/100`;
 

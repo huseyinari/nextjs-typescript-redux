@@ -1,5 +1,6 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 // components
 import Spinner from '@/src/components/forms/Spinner';
@@ -12,8 +13,7 @@ import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { 
   getAllPosts,
   getFirstPopularPost, 
-  getSecondPopularPost, 
-  reset as resetPost,
+  getSecondPopularPost,
   getPostState,
 } from '@/src/redux/post-store';
 import { store } from '@/src/redux/store';
@@ -71,7 +71,7 @@ const HomePage: NextPage<IHomePage> = ({ aboutPost }) => {
           <h1 className='display-4 fst-italic'> {bestPost?.title} </h1>
           <p className='lead my-3'> {bestPost?.body} </p>
           <p className='lead mb-0'> 
-            <a href='#'> <span>Continue reading...</span> </a> 
+            <Link href="#"> <span>Continue reading...</span> </Link> 
           </p>
         </div>
       </div>
@@ -85,7 +85,7 @@ const HomePage: NextPage<IHomePage> = ({ aboutPost }) => {
               <h3 className='mb-0'>{firstPopularPost?.title}</h3>
               <div className='mb-1 text-body-secondary'>Şubat 2023</div>
               <p className='card-text mb-auto'>{firstPopularPost?.body.substring(0, 75) + '...'}</p>
-              <a className='stretched-link'> <span>Continue reading</span> </a>
+              <Link href="#" className='stretched-link'> <span>Continue reading</span> </Link>
             </div>
 
             <div className='col-auto d-none d-lg-block'>
@@ -101,7 +101,7 @@ const HomePage: NextPage<IHomePage> = ({ aboutPost }) => {
               <h3 className='mb-0'>{secondPopularPost?.title}</h3>
               <div className='mb-1 text-body-secondary'>Aralık 2022</div>
               <p className='card-text mb-auto'>{secondPopularPost?.body.substring(0, 75) + '...'}</p>
-              <a className='stretched-link'> <span>Continue reading</span> </a>
+              <Link href="#" className='stretched-link'> <span>Continue reading</span> </Link>
             </div>
 
             <div className='col-auto d-none d-lg-block'>
@@ -120,7 +120,7 @@ const HomePage: NextPage<IHomePage> = ({ aboutPost }) => {
           {
             allPosts.map((post: Post) => (
               <article className="blog-post">
-                <h2 className="blog-post-title mb-1">{post.title}</h2>
+                <Link href={`/post/${post.id}`}><h4 className="blog-post-title mb-1">{post.title}</h4></Link>
                 <p className="blog-post-meta" style={{fontSize: 14, fontStyle: 'italics'}}>25 Nisan 2023, Hüseyin ARI</p>
                 <p>{post.body}</p>
               </article>
@@ -128,8 +128,8 @@ const HomePage: NextPage<IHomePage> = ({ aboutPost }) => {
           }
 
           <nav className="blog-pagination mb-3" aria-label="Pagination">
-            <a className="btn btn-outline-primary rounded-pill" href="#">Daha Eski</a>
-            <a className="btn btn-outline-secondary rounded-pill disabled" style={{marginLeft: 10}}>Daha Yeni</a>
+            <Link href="#" className="btn btn-outline-primary rounded-pill">Daha Eski</Link>
+            <Link href="#" className="btn btn-outline-secondary rounded-pill disabled" style={{marginLeft: 10}}>Daha Yeni</Link>
           </nav>
         </div>
 
@@ -142,20 +142,20 @@ const HomePage: NextPage<IHomePage> = ({ aboutPost }) => {
             <div className="p-4">
               <h4 className="fst-italic">Arşiv</h4>
               <ol className="list-unstyled mb-0">
-                <li><a href="#">Nisan 2023</a></li>
-                <li><a href="#">Mart 2023</a></li>
-                <li><a href="#">Şubat 2023</a></li>
-                <li><a href="#">Ocak 2023</a></li>
-                <li><a href="#">Aralık 2022</a></li>
-                <li><a href="#">Kasım 2022</a></li>
+                <li><Link href="#">Nisan 2023</Link></li>
+                <li><Link href="#">Mart 2023</Link></li>
+                <li><Link href="#">Şubat 2023</Link></li>
+                <li><Link href="#">Ocak 2023</Link></li>
+                <li><Link href="#">Aralık 2022</Link></li>
+                <li><Link href="#">Kasım 2022</Link></li>
               </ol>
             </div>
             <div className="p-4">
               <h4 className="fst-italic">Sosyal Medya</h4>
               <ol className="list-unstyled">
-                <li><a href="#">GitHub</a></li>
-                <li><a href="#">Twitter</a></li>
-                <li><a href="#">Facebook</a></li>
+                <li><Link href="#">GitHub</Link></li>
+                <li><Link href="#">Twitter</Link></li>
+                <li><Link href="#">Facebook</Link></li>
               </ol>
             </div>
           </div>
@@ -171,7 +171,7 @@ export const getStaticProps: GetStaticProps<IHomePage> = async () => {
   const aboutPost: Post = await getAboutPost();
   return {
     props: {
-      aboutPost: JSON.parse(JSON.stringify(aboutPost))
+      aboutPost: JSON.parse(JSON.stringify(aboutPost))  // JSON.parse ve stringfy'ı kullanmazsak serialization hatası veriyor
     }
   }
 }

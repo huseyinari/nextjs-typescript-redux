@@ -5,7 +5,7 @@ interface ITextArea {
 }
 const TextArea: React.FC<ITextArea> = ({ value, placeholder, onChange }) => {
     return (
-        <textarea className="form-control" placeholder={placeholder}  value={value} onChange={(e) => onChange && onChange(e.target.value)} />
+        <textarea className="form-control" placeholder={placeholder} style={{height: 150}}  value={value} onChange={(e) => onChange && onChange(e.target.value)} />
     )
 }
 export default TextArea;

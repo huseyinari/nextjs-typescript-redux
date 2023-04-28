@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface IFooter {
 
 }
@@ -8,7 +10,7 @@ const Footer: React.FC<IFooter> = ({  }) => {
                 Blog template built for <a href="#"> <span>Bootstrap</span> </a>
             </p>
             <p>
-                <a href="#"><span>Back To Top</span></a>
+                <Link href="#"><span>Back To Top</span></Link>
             </p>
 
             {/* style jsx kullanımı */}

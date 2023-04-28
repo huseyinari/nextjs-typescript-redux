@@ -9,15 +9,15 @@ const Header: React.FC<IHeader> = () => {
         <header className="blog-header lh-1 py-3">
             <div className="row flex-nowrap justify-content-between align-items-center">
                 <div className="col-4 pt-1">
-                    <Link href="/"> <a className="link-secondary"> <span>Anasayfa</span> </a> </Link>
+                    <Link href="/" className="link-secondary"> Anasayfa </Link>
                 </div>
 
                 <div className="col-4 text-center">
-                    <a className={styles.headerText}> <span>DIGIFINANS</span> </a> {/* Module CSS Kullanımı */}
+                    <Link href="#" className={styles.headerText}> <span>DIGIFINANS</span> </Link> {/* Module CSS Kullanımı */}
                 </div>
 
                 <div className="col-4 d-flex justify-content-end align-items-center">
-                    <a className="link-secondary" aria-label="Search">
+                    <Link href="#" className="link-secondary" aria-label="Search">
                         <svg 
                             xmlns="http://www.w3.org/2000/svg" 
                             width={20}
@@ -35,10 +35,10 @@ const Header: React.FC<IHeader> = () => {
                             <circle cx={10.5} cy={10.75} r={7.5}></circle>
                             <path d="M21 21l-5.2-5.2"></path>
                         </svg>
-                    </a>
-                    <a className="btn btn-sm btn-outline-secondary">
+                    </Link>
+                    <Link href="#" className="btn btn-sm btn-outline-secondary">
                         <span>Kaydol</span>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </header>

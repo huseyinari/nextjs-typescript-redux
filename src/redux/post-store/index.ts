@@ -15,13 +15,15 @@ interface IPostState {
     firstPopularPost: Post | null;
     secondPopularPost: Post | null;
     saveSuccess: boolean;
+    updateSuccess: boolean;
 }
 
 const initialState: IPostState = {
     allPosts: [],
     firstPopularPost: null,
     secondPopularPost: null,
-    saveSuccess: false
+    saveSuccess: false,
+    updateSuccess: false
 }
 
 const postSlice = createSlice({
@@ -33,8 +35,18 @@ const postSlice = createSlice({
             state.allPosts = [...state.allPosts, action.payload];
             state.saveSuccess = true;
         },
-        clearSuccess: (state) => {
-            state.saveSuccess = false
+        editPost: (state, action: PayloadAction<Post>) => {
+            state.allPosts.forEach((post: Post) => {
+                if (post.id === action.payload.id) {
+                    post.title = action.payload.title;
+                    post.body = action.payload.body;
+                }
+            })
+            state.updateSuccess = true;
+        },
+        clear: (state) => {
+            state.saveSuccess = false;
+            state.updateSuccess = false;
         }
     },
     extraReducers: (builder: ActionReducerMapBuilder<IPostState>) => {
@@ -59,7 +71,7 @@ export const getAllPosts = createAsyncThunk("postReducer/getAllPosts", async (li
 });
 export const getFirstPopularPost = createAsyncThunk("postReducer/getFirstPopularPostAction", getFirstPopularPostService);
 export const getSecondPopularPost = createAsyncThunk("postReducer/getSecondPopularPost", getSecondPopularPostService);
-export const { reset, addPost, clearSuccess } = postSlice.actions;
+export const { reset, addPost, editPost, clear } = postSlice.actions;
 
 
 // selectors
@@ -67,12 +79,13 @@ export const selectFirstPopularPost = (state: RootState) => state.postReducer.fi
 export const selectSecondPopularPost = (state: RootState) => state.postReducer.secondPopularPost;
 //  => tek objede tüm state'i de dönebiliriz.
 export const getPostState = (state: RootState) => {
-    const { allPosts, firstPopularPost, secondPopularPost, saveSuccess } = state.postReducer;
+    const { allPosts, firstPopularPost, secondPopularPost, saveSuccess, updateSuccess } = state.postReducer;
     return {
         allPosts,
         firstPopularPost,
         secondPopularPost,
-        saveSuccess
+        saveSuccess,
+        updateSuccess
     }
 }
 
